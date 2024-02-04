@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Configuration\Commands\.Extensions\**" />
+    <EmbeddedResource Remove="Configuration\Commands\.Extensions\**" />
+    <None Remove="Configuration\Commands\.Extensions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include=".Extensions\CliBuilderExtensions.cs" />
+    <Compile Include=".Extensions\CommandExtensions.cs" />
+    <Compile Include="Commands\.Extensions\CliFrameworkCommandExtensions.cs" />
+    <Compile Include="Configuration\.Extensions\CliBuilderConfigurationExtensions.cs" />
+    <Compile Include="Diagnostics\Logging\.Extensions\CliBuilderLoggingExtensions.cs" />
+    <Compile Include="Hosting\Internal\.Extensions\HostingInternalCliBuilderExtensions.cs" />
+    <Compile Include="Internal\.Extensions\RootCommandExtensions.cs" />
+    <Compile Include="Invocation\Middlewares\.Extensions\MiddlewareCliBuilderExtensions.cs" />
+    <Compile Include="Invocation\Middlewares\.Extensions\MiddlewareServiceCollectionExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.1" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.22272.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Asys.System\Asys.System.csproj" />
+  </ItemGroup>
+
+</Project>

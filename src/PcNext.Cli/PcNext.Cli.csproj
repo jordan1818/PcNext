@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>pcnext</AssemblyName>
+    <Description>Application to perform personal computer maintenance operations.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Asys\Cli\Asys.Cli.Framework\Asys.Cli.Framework.csproj" />
+    <ProjectReference Include="..\Asys\Cli\Extensions\Asys.Cli.Extensions.Asys\Asys.Cli.Extensions.Asys.csproj" />
+    <ProjectReference Include="..\Asys\Cli\Extensions\Asys.Cli.Extensions.ChocolateySharp\Asys.Cli.Extensions.ChocolateySharp.csproj" />
+    <ProjectReference Include="..\PcNext.Commands.Configure\PcNext.Commands.Configure.csproj" />
+  </ItemGroup>
+
+</Project>

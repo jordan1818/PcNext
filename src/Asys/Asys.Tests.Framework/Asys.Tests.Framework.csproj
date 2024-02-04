@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Asys.Tasks\Asys.Tasks.csproj" />
+    <ProjectReference Include="..\Asys.Tests.Framework.Assert\Asys.Tests.Framework.Asserts.csproj" />
+  </ItemGroup>
+
+</Project>

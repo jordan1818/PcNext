@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include=".Extensions\CliChocolateySharpExtensios.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\ChocolateySharp\ChocolateySharp\ChocolateySharp.csproj" />
+    <ProjectReference Include="..\..\Asys.Cli.Framework\Asys.Cli.Framework.csproj" />
+  </ItemGroup>
+
+</Project>

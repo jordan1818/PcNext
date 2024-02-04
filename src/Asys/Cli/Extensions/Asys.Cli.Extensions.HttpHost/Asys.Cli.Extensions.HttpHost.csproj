@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <OutputType>Library</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Hosting\Http\.Extensions\HttpHostApplicationBuilderExtensions.cs" />
+        <Compile Include="Hosting\Http\.Extensions\HttpHostCliBuilderExtensions.cs" />
+        <Compile Include="Hosting\Http\.Extensions\HttpHostCommandExtensions.cs" />
+        <Compile Include="Hosting\Http\.Extensions\HttpHostWebHostBuilderExtensions.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Asys.Cli.Framework\Asys.Cli.Framework.csproj" />
+    </ItemGroup>
+
+</Project>
