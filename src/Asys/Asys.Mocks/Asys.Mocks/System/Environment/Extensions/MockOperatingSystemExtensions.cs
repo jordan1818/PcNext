@@ -14,7 +14,7 @@ public static class MockOperatingSystemExtensions
     /// <param name="mockOperatingSystem">The instance of the <see cref="Mock{IOperatingSystem}"/> to configure.</param>
     /// <param name="result">The result to be returned.</param>
     /// <returns>The confgiured instane of <see cref="Mock{IOperatingSystem}"/> to allow for chainning.</returns>
-    public static Mock<IOperatingSystem> OnIsWindows(this Mock<IOperatingSystem> mockOperatingSystem, bool result)
+    public static Mock<IOperatingSystem> ReturnOnIsWindows(this Mock<IOperatingSystem> mockOperatingSystem, bool result)
     {
         mockOperatingSystem.Setup(m => m.IsWindows())
             .Returns(() => result);

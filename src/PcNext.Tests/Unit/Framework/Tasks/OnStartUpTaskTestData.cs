@@ -65,13 +65,13 @@ internal sealed class OnStartUpTaskTestData : TaskConfigurationTestData<OnStartU
 
     public OnStartUpTaskTestData WithOsIsWindows()
     {
-        MockOperatingSystem.OnIsWindows(true);
+        MockOperatingSystem.ReturnOnIsWindows(true);
         return this;
     }
 
     public OnStartUpTaskTestData WithOsIsNotWindows()
     {
-        MockOperatingSystem.OnIsWindows(false);
+        MockOperatingSystem.ReturnOnIsWindows(false);
         return this;
     }
 

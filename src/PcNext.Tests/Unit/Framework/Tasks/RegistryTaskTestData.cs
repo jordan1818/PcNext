@@ -58,13 +58,13 @@ internal sealed class RegistryTaskTestData : TaskConfigurationTestData<RegistryT
 
     public RegistryTaskTestData WithOsIsWindows()
     {
-        MockOperatingSystem.OnIsWindows(true);
+        MockOperatingSystem.ReturnOnIsWindows(true);
         return this;
     }
 
     public RegistryTaskTestData WithOsIsNotWindows()
     {
-        MockOperatingSystem.OnIsWindows(false);
+        MockOperatingSystem.ReturnOnIsWindows(false);
         return this;
     }
 
