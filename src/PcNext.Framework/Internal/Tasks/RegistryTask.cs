@@ -86,42 +86,32 @@ internal sealed class RegistryTask : ITask
 
                 context.State = TaskState.Running;
 
-                switch (Action)
+                if (Action == RegistryAction.Update || 
+                    Action == RegistryAction.Append)
                 {
+                    if (string.IsNullOrWhiteSpace(Value))
+                    {
+                        throw new TaskResultsMissingPropertyException(nameof(Value));
+                    }
 
-                    case RegistryAction.Update:
-                        if (string.IsNullOrWhiteSpace(Value))
-                        {
-                            throw new TaskResultsMissingPropertyException(nameof(Value));
-                        }
+                    var registryValue = GetRegistryValueFromValue(Value);
+                    var actualRegistryValue = registryKey.GetRegistryValue(Key);
+                    var updatedRegistryValue = Action == RegistryAction.Append && actualRegistryValue is not null
+                        ? actualRegistryValue + registryValue
+                        : registryValue;
 
-                        var valueKind = registryKey.GetValueKind(Key)
-                            ?? GetValueKindFromValue(GetTypedValue(Value));
 
-                        context.Logger.LogDebug("Creating/Updating Registry key '{RegistryKey}' with value '{RegistryValue}' of kind '{RegistryKind}'...", Key, Value, valueKind);
-                        registryKey!.SetValue(Key, Value, valueKind);
-                        break;
-
-                    case RegistryAction.Append:
-                        if (string.IsNullOrWhiteSpace(Value))
-                        {
-                            throw new TaskResultsMissingPropertyException(nameof(Value));
-                        }
-
-                        var typedValue = GetTypedValue(Value);
-                        var value = registryKey.GetValue(Key) + typedValue ?? typedValue;
-                        var valueKind = registryKey.GetValueKind(Key)
-                            ?? GetValueKindFromValue(typedValue);
-
-                        context.Logger.LogDebug("Creating/Appending Registry key '{RegistryKey}' with value '{RegistryValue}' of kind '{RegistryKind}'...", Key, value, valueKind);
-                        registryKey!.SetValue(Key, Value, valueKind);
-                        break;
-                    case RegistryAction.Remove:
-                        context.Logger.LogDebug("Removing Registry key '{RegistryKey}'", Key);
-                        registryKey!.DeleteValue(Key);
-                        break;
-                    default:
-                        throw new NotSupportedException($"'{nameof(Action)}' is not support of value '{Action}'.");
+                    context.Logger.LogDebug("Creating/Updating/Appending Registry key '{RegistryKey}' with value '{RegistryValue}' of kind '{RegistryKind}'...", Key, updatedRegistryValue.Value, updatedRegistryValue.Kind);
+                    registryKey!.SetValue(Key, updatedRegistryValue.Value!, updatedRegistryValue.Kind);
+                }
+                else if (Action == RegistryAction.Remove)
+                {
+                    context.Logger.LogDebug("Removing Registry key '{RegistryKey}'", Key);
+                    registryKey!.DeleteValue(Key);
+                }
+                else
+                {
+                    throw new NotSupportedException($"'{nameof(Action)}' is not support of value '{Action}'.");
                 }
             }
             catch (TaskResultsException e)
@@ -141,49 +131,56 @@ internal sealed class RegistryTask : ITask
         });
     }
 
-    internal static object GetTypedValue(string value)
+    internal static RegistryValue GetRegistryValueFromValue(string value)
     {
-        if (int.TryParse(value, out var i))
+        object GetTypedValue(string value)
         {
-            return i;
+            if (int.TryParse(value, out var i))
+            {
+                return i;
+            }
+
+            if (long.TryParse(value, out var l))
+            {
+                return l;
+            }
+
+            var array1 = value.Split(",");
+            var array2 = value.Split(";");
+            if (array1.Any())
+            {
+                return array1;
+            }
+            else if (array1.Any())
+            {
+                return array2;
+            }
+
+            return value; // End up being string if no other type is found.
         }
 
-        if (long.TryParse(value, out var l))
+        RegistryValueKind GetTypedValueKind(object value)
         {
-            return l;
-        }
-
-        var array1 = value.Split(",");
-        var array2 = value.Split(";");
-        if (array1.Any())
-        {
-            return array1;
-        }
-        else if (array1.Any())
-        {
-            return array2;
-        }
-
-        return value;
-    }
-
-    internal static RegistryValueKind GetValueKindFromValue(object value)
-    {
-        switch (value)
-        {
-            case int: return RegistryValueKind.DWord;
-            case long: return RegistryValueKind.QWord;
-            case IEnumerable<string>: return RegistryValueKind.MultiString;
-            case string:
-                {
-                    if (_expanedStringRegex.IsMatch((string)value!))
+            switch (value)
+            {
+                case int: return RegistryValueKind.DWord;
+                case long: return RegistryValueKind.QWord;
+                case string[]: return RegistryValueKind.MultiString;
+                case string:
                     {
-                        return RegistryValueKind.ExpandString;
-                    }
+                        if (_expanedStringRegex.IsMatch((string)value!))
+                        {
+                            return RegistryValueKind.ExpandString;
+                        }
 
-                    return RegistryValueKind.String;
-                }
-            default: return RegistryValueKind.String;
+                        return RegistryValueKind.String;
+                    }
+                default: return RegistryValueKind.String; // All else fails, remain as string.
+            }
         }
+
+        var typedValue = GetTypedValue(value);
+        var typeValueKind = GetTypedValueKind(typedValue);
+        return new RegistryValue(typedValue, typeValueKind);
     }
 }
