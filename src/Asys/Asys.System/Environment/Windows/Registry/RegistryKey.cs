@@ -1,5 +1,4 @@
 ﻿using Asys.System.Convert;
-using Microsoft.Win32;
 
 namespace Asys.System.Environment.Windows.Registry;
 
@@ -19,8 +18,6 @@ public sealed class RegistryKey : IRegistryKey
     {
         _registryKey = registryKey;
         _parent = parent;
-
-        _registryKey.GetValueKind
     }
 
     /// <inheritdoc/>
@@ -31,7 +28,7 @@ public sealed class RegistryKey : IRegistryKey
     }
 
     /// <inheritdoc/>
-    public IRegistryKey? CreateOrOpenSubKey(string name, RegistryKeyPermissionCheck? permissionCheck = default) => new RegistryKey(_registryKey?.CreateSubKey(name, ConvertEnum.ToOrigin<RegistryKeyPermissionCheck, Microsoft.Win32.RegistryKeyPermissionCheck>(permissionCheck) ?? Microsoft.Win32.RegistryKeyPermissionCheck.Default, this);
+    public IRegistryKey? CreateOrOpenSubKey(string name, RegistryKeyPermissionCheck? permissionCheck = default) => new RegistryKey(_registryKey?.CreateSubKey(name, ConvertEnum.ToOrigin<RegistryKeyPermissionCheck, Microsoft.Win32.RegistryKeyPermissionCheck>(permissionCheck) ?? Microsoft.Win32.RegistryKeyPermissionCheck.Default), this);
 
     /// <inheritdoc/>
     public object? GetValue(string name, object? defaultValue = default, bool expandEnvironmentNames = default) => _registryKey?.GetValue(name, defaultValue, expandEnvironmentNames ? Microsoft.Win32.RegistryValueOptions.DoNotExpandEnvironmentNames : Microsoft.Win32.RegistryValueOptions.None);
