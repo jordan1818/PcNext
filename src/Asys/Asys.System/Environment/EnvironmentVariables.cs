@@ -12,15 +12,15 @@ namespace Asys.System.Environment;
 public sealed class EnvironmentVariables : IEnvironmentVariables
 {
     /// <inheritdoc/>
-    public string? GetEnvironmentVariable(string key, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process) => SystemEnvironment.GetEnvironmentVariable(key, ConvertEnum.ToOrigin<EnvironmentVariableTarget, SystemEnvironmentVariableTarget>(target));
+    public string? GetEnvironmentVariable(string key, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process) => SystemEnvironment.GetEnvironmentVariable(key, ConvertEnum.ToOrigin<EnvironmentVariableTarget, SystemEnvironmentVariableTarget>(target) ?? SystemEnvironmentVariableTarget.Process);
 
     /// <inheritdoc/>
-    public void SetEnvironmentVariable(string key, string? value, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process) => SystemEnvironment.SetEnvironmentVariable(key, value, ConvertEnum.ToOrigin<EnvironmentVariableTarget, SystemEnvironmentVariableTarget>(target));
+    public void SetEnvironmentVariable(string key, string? value, EnvironmentVariableTarget target = EnvironmentVariableTarget.Process) => SystemEnvironment.SetEnvironmentVariable(key, value, ConvertEnum.ToOrigin<EnvironmentVariableTarget, SystemEnvironmentVariableTarget>(target) ?? SystemEnvironmentVariableTarget.Process);
 
     /// <inheritdoc/>
     public IDictionary<string, string?> GetEnvironmentVariables(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
-        var environmentVariables = SystemEnvironment.GetEnvironmentVariables(ConvertEnum.ToOrigin<EnvironmentVariableTarget, SystemEnvironmentVariableTarget>(target));
+        var environmentVariables = SystemEnvironment.GetEnvironmentVariables(ConvertEnum.ToOrigin<EnvironmentVariableTarget, SystemEnvironmentVariableTarget>(target) ?? SystemEnvironmentVariableTarget.Process);
         var output = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
 
         foreach (DictionaryEntry entry in environmentVariables)
