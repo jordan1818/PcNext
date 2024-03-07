@@ -33,6 +33,11 @@ public sealed class RegistryValueTests
     [InlineData(RegistryValueKind.Binary)]
     public void Append_Value_Failed_With_Unsupported_Kind(RegistryValueKind kind)
     {
+        // -- Arrange --
+        var registryValue1 = new RegistryValue(new object(), kind);
+        var registryValue2 = new RegistryValue(new object(), kind);
+
         // -- Act / Assert --
+        Assert.Throws<InvalidOperationException>(() => _ = registryValue1 + registryValue2);
     }
 }
