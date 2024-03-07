@@ -4,6 +4,6 @@
 /// The definition of <see cref="IAssert"/>
 /// for general assertion sets.
 /// </summary>
-public interface IAssert : INullAssert, ITypeAssert, IEqualAssert, ICollectionAssert, IConditionAssert
+public interface IAssert : INullAssert, ITypeAssert, IEqualAssert, IThrowAssert, ICollectionAssert, IConditionAssert
 {
 }

@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Xunit;
 
 namespace Asys.Tests.Framework.XUnit.Asserts;
+
+using Assert = Xunit.Assert;
 
 /// <summary>
 /// The implementation of <see cref="Asys.Tests.Framework.Asserts.IEqualAssert"/>
